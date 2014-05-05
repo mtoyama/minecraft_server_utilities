@@ -1,0 +1,30 @@
+Interesting server commands: 
+	/say <message>
+	/save-all //writes all pending changes to disk
+	/stop //writes all pending changes to disk and shuts down server
+	/playsound <sound> <player> [x] [y] [z] [volume] [pitch] [minimumVolume]
+
+Flow:
+Command line console application
+	launch parameters: <start> <autoshutdown on/off>
+	live inputs:
+		server commands
+		restart <delay>
+			Messages out to server that it's restarting in <delay>. Runs a stop,
+			then fires up start script again.
+			Optional param for delay: "now". Shuts down server immediately.
+		stop <delay>
+			Messages out to server that it's stopping in <delay>. Runs a stop.
+
+		backup
+			Backs up the server. Need some kind of timestamping / revolving system
+	configurations:
+		server path
+		startup script path
+		number of revolving backups
+
+Open questions:
+How do we call a shutdown from within the program?
+How do we separate application commands from minecraft server commands?
+	/serverutil:
+	/server:

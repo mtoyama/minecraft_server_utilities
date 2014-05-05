@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "server_console", "server_console\server_console.csproj", "{7346F301-8233-4B2D-87E1-CA14CFA40109}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7346F301-8233-4B2D-87E1-CA14CFA40109}.Debug|x64.ActiveCfg = Debug|x64
+		{7346F301-8233-4B2D-87E1-CA14CFA40109}.Debug|x64.Build.0 = Debug|x64
+		{7346F301-8233-4B2D-87E1-CA14CFA40109}.Debug|x86.ActiveCfg = Debug|x64
+		{7346F301-8233-4B2D-87E1-CA14CFA40109}.Debug|x86.Build.0 = Debug|x64
+		{7346F301-8233-4B2D-87E1-CA14CFA40109}.Release|x64.ActiveCfg = Release|x64
+		{7346F301-8233-4B2D-87E1-CA14CFA40109}.Release|x64.Build.0 = Release|x64
+		{7346F301-8233-4B2D-87E1-CA14CFA40109}.Release|x86.ActiveCfg = Release|x86
+		{7346F301-8233-4B2D-87E1-CA14CFA40109}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
