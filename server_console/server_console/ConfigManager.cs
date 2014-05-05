@@ -23,22 +23,6 @@ namespace server_console
     {
 
 
-        public ConfigManager()
-        {
-            //Constructor shit
-        }
-
-        public static List<List<string>> CreateConfigArray()
-        {
-            List<List<string>> configData = new List<List<string>>();
-            configData.Add(new List<string>{"ServerRoot","D:\\Users\\mtoyama\\Desktop\\MagicFarmServer"});
-            configData.Add(new List<string>{"JarName","FTBServer-1.6.4-965.jar"});
-            configData.Add(new List<string>{"AppInputPrefix","/serverconfig"});
-            configData.Add(new List<string>{"BackupLocation","D:\\Users\\mtoyama\\Desktop\\MagicFarmServer\\backups"});
-            return configData;
-
-        }
-
         public static void SerializeAndOutputConfigXML()
         {
             Configuration template = new Configuration();
@@ -69,27 +53,6 @@ namespace server_console
             {
                 XmlSerializer xs = new XmlSerializer(typeof(Configuration));
                 xs.Serialize(sw, template);
-            }
-        }
-      
-
-        
- 
-        public static void GenerateTemplateConfig()
-        {
-            List<List<string>> configArray = CreateConfigArray();
-            using (XmlWriter writer = XmlWriter.Create("config.xml"))
-            {
-                writer.WriteStartDocument();
-                writer.WriteStartElement("Config");
-                writer.WriteStartElement("CoreValues");
-                foreach (List<string> item in configArray)
-                {
-                    writer.WriteElementString(item[0],item[1]);
-                }
-                writer.WriteEndElement();
-                writer.WriteEndElement();
-                writer.WriteEndDocument();
             }
         }
     }

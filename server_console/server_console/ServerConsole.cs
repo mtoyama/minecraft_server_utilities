@@ -47,7 +47,6 @@ namespace server_console
                 
                 // Set current dir to server root dir
                 Directory.SetCurrentDirectory(serverRootDirectory);
-                //ConfigManager.GenerateTemplateConfig();
 
                 // Define the properties of the Java process 
                 ProcessStartInfo ProcessInfo;
