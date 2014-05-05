@@ -83,6 +83,13 @@ namespace server_console
                 timeMonitorThread.Start();
 
                 serverJavaProcess.WaitForExit();
+                ColorConsoleOutput.YellowEvent("Server has been shut down.");
+                
+                // Restart the server if we did not manually shut it down.
+                if (commandProcessor.manualShutdown == false)
+                {
+                    commandProcessor.ProcessCommand("start");
+                }
             }
             catch (Exception e)
             {
@@ -96,6 +103,7 @@ namespace server_console
     public class ApplicationCommandProcessor
     {
         private volatile bool _shouldStopUserInputMonitor = false;
+        public bool manualShutdown = false;
         string applicationInputPrefix;
         StreamWriter serverStreamWriter;
         Process serverProcess;
@@ -111,6 +119,8 @@ namespace server_console
 
         public void StopServer()
         {
+            // Let the main method know we shut down the server.
+            manualShutdown = true;
             serverStreamWriter.WriteLine("/stop");
             // Wait for the process to finish dying.
             serverProcess.WaitForExit();
@@ -120,6 +130,8 @@ namespace server_console
         {
             // We don't want to try to start the server process until the existing process has exited.
             serverProcess.WaitForExit();
+            // Reset manualShutdown to false; we only set this to true when we stop the server.
+            manualShutdown = false;
             serverProcess.Start();
             // We need to re-set the stream writer because we lost it when the previous serverProcess stopped.
             StreamWriter serverStreamWriter = serverProcess.StandardInput;

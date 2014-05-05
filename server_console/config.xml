@@ -11,7 +11,6 @@
     <string>-Xms2048m</string>
     <string>-XX:+UseConcMarkSweepGC</string>
     <string>-XX:+CMSIncrementalPacing</string>
-    <string>-server</string>
     <string>-XX:+AggressiveOpts</string>
     <string>-XX:UseSSE=7</string>
     <string>-XX:+UseFastAccessorMethods</string>
@@ -20,7 +19,5 @@
     <string>-XX:+UseCMSCompactAtFullCollection</string>
     <string>-XX:+UseParNewGC</string>
     <string>-XX:+DisableExplicitGC</string>
-    <string>-XX:parallelGCThreads=2</string>
-    <string>nogui</string>
   </serverStartupArguments>
 </Configuration>
