@@ -16,6 +16,7 @@ namespace server_console
         public string appInputPrefix;
         public string backupLocation;
         public string dailyBackupTime;
+        public int totalBackupRotations;
         public List<string> serverStartupArguments;
     }
     
@@ -32,6 +33,7 @@ namespace server_console
             template.appInputPrefix = "/serverconfig";
             template.backupLocation = "D:\\Users\\mtoyama\\Desktop\\MagicFarmServer\\backups";
             template.dailyBackupTime = "03:00";
+            template.totalBackupRotations = 5;
             template.serverStartupArguments = new List<string>{
                 "-Xms2048m",
                 "-XX:+UseConcMarkSweepGC",

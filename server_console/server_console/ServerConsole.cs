@@ -35,6 +35,7 @@ namespace server_console
                 string applicationInputPrefix = inputConfig.appInputPrefix;
                 string javaPath = inputConfig.javaPath;
                 string dailyBackupTime = inputConfig.dailyBackupTime;
+                int totalBackupRotations = inputConfig.totalBackupRotations;
 
                 string serverJarFullPath = Path.Combine(serverRootDirectory, serverJarFilename);
                 string serverJarFileJavaParameter = "-jar " + serverJarFullPath;
@@ -51,7 +52,7 @@ namespace server_console
                 // Define the properties of the Java process 
                 ProcessStartInfo ProcessInfo;
                 Process serverJavaProcess;
-                ProcessInfo = new ProcessStartInfo(javaPath,inputParameters + serverJarFileJavaParameter);
+                ProcessInfo = new ProcessStartInfo(javaPath, inputParameters + serverJarFileJavaParameter);
                 ProcessInfo.CreateNoWindow = false;
                 ProcessInfo.UseShellExecute = false;
                 ProcessInfo.RedirectStandardOutput = false; // Someday we could redirect the STDOUT to do additional processing on it. Someday.
@@ -65,7 +66,7 @@ namespace server_console
 
                 // Create my Backup and Schedule Managers
                 // Schedule manager needs objects for anything it's going to control
-                BackupManager backupManager = new BackupManager(serverRootDirectory, 3, dailyBackupTime);
+                BackupManager backupManager = new BackupManager(serverRootDirectory, totalBackupRotations, dailyBackupTime);
                 ScheduleManager scheduleManager = new ScheduleManager(backupManager);
 
                 // Create my ApplicationCommandProcessor
@@ -161,7 +162,7 @@ namespace server_console
                     ColorConsoleOutput.YellowEvent("STOP        Warns users, stops the server. Server util will continue to run.");
                     ColorConsoleOutput.YellowEvent("START       Starts the server. Server must be stopped.");
                     ColorConsoleOutput.YellowEvent("RESTART     Warns users, restarts the server.");
-                    ColorConsoleOutput.YellowEvent("NEXTBACKUP  Warns users, restarts the server.");
+                    ColorConsoleOutput.YellowEvent("NEXTBACKUP  Show scheduled backup time.");
                     break;
 
                 case "backup":

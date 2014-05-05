@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configuration xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <javaPath>C:\Program Files\Java\jre7\bin\java.exe</javaPath>
+  <serverRoot>D:\Users\mtoyama\Desktop\MagicFarmServer</serverRoot>
+  <jarName>FTBServer-1.6.4-965.jar</jarName>
+  <appInputPrefix>/serverconfig</appInputPrefix>
+  <backupLocation>D:\Users\mtoyama\Desktop\MagicFarmServer\backups</backupLocation>
+  <dailyBackupTime>03:00</dailyBackupTime>
+  <totalBackupRotations>5</totalBackupRotations>
+  <serverStartupArguments>
+    <string>-Xms2048m</string>
+    <string>-XX:+UseConcMarkSweepGC</string>
+    <string>-XX:+CMSIncrementalPacing</string>
+    <string>-server</string>
+    <string>-XX:+AggressiveOpts</string>
+    <string>-XX:UseSSE=7</string>
+    <string>-XX:+UseFastAccessorMethods</string>
+    <string>-XX:CMSFullGCsBeforeCompaction=1</string>
+    <string>-XX:+CMSParallelRemarkEnabled</string>
+    <string>-XX:+UseCMSCompactAtFullCollection</string>
+    <string>-XX:+UseParNewGC</string>
+    <string>-XX:+DisableExplicitGC</string>
+    <string>-XX:parallelGCThreads=2</string>
+    <string>nogui</string>
+  </serverStartupArguments>
+</Configuration>
