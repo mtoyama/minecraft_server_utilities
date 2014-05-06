@@ -14,5 +14,21 @@ namespace server_console
             Console.WriteLine(messageString);
             Console.ResetColor();
         }
+
+        public static void RedEvent(params string[] pMessage)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            string messageString = string.Concat(pMessage);
+            Console.WriteLine(messageString);
+            Console.ResetColor();
+        }
+
+        public static void GreenEvent(params string[] pMessage)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            string messageString = string.Concat(pMessage);
+            Console.WriteLine(messageString);
+            Console.ResetColor();
+        }
     }
 }
