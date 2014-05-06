@@ -27,7 +27,8 @@ namespace server_console
         public static void SerializeAndOutputConfigXML()
         {
             Configuration template = new Configuration();
-            template.javaPath = @"C:\Program Files\Java\jre7\bin\java.exe";
+            template.javaPath = "java";
+            //template.javaPath = @"C:\Program Files\Java\jre7\bin\java.exe";
             //template.javaPath = @"C:\Windows\System32\java.exe";
             template.serverRoot = "D:\\Users\\mtoyama\\Desktop\\MagicFarmServer";
             template.jarName = "FTBServer-1.6.4-965.jar";
@@ -39,7 +40,7 @@ namespace server_console
                 "-Xms2048m",
                 "-XX:+UseConcMarkSweepGC",
                 "-XX:+CMSIncrementalPacing",
-                //"-server",
+                "-server",
                 "-XX:+AggressiveOpts",
                 "-XX:UseSSE=7",
                 "-XX:+UseFastAccessorMethods",
@@ -48,8 +49,8 @@ namespace server_console
                 "-XX:+UseCMSCompactAtFullCollection",
                 "-XX:+UseParNewGC",
                 "-XX:+DisableExplicitGC",
-                //"-XX:parallelGCThreads=2",
-                //"nogui"
+                "-XX:ParallelGCThreads=2",
+                "nogui"
             };
 
             using (StreamWriter sw = new StreamWriter(@".\config.xml"))

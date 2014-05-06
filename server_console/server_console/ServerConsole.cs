@@ -52,7 +52,8 @@ namespace server_console
                 // Define the properties of the Java process 
                 ProcessStartInfo ProcessInfo;
                 Process serverJavaProcess;
-                ProcessInfo = new ProcessStartInfo(javaPath, inputParameters + serverJarFileJavaParameter);
+                ProcessInfo = new ProcessStartInfo(javaPath, serverJarFileJavaParameter + " " + inputParameters);
+                //ProcessInfo.WorkingDirectory = @"C:\Windows\SysWOW64";
                 ProcessInfo.CreateNoWindow = false;
                 ProcessInfo.UseShellExecute = false;
                 ProcessInfo.RedirectStandardOutput = false; // Someday we could redirect the STDOUT to do additional processing on it. Someday.
