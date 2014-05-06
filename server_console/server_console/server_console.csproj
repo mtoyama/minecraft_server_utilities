@@ -63,6 +63,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationCommandProcessor.cs" />
+    <Compile Include="BackupManager.cs" />
+    <Compile Include="ScheduleManager.cs" />
     <Compile Include="ConfigManager.cs" />
     <Compile Include="ColorConsoleOutput.cs" />
     <Compile Include="ServerConsole.cs" />

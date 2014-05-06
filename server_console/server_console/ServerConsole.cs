@@ -35,6 +35,7 @@ namespace server_console
                 string applicationInputPrefix = inputConfig.appInputPrefix;
                 string javaPath = inputConfig.javaPath;
                 string dailyBackupTime = inputConfig.dailyBackupTime;
+                string backupDirectory = inputConfig.backupLocation;
                 int totalBackupRotations = inputConfig.totalBackupRotations;
 
                 string serverJarFullPath = Path.Combine(serverRootDirectory, serverJarFilename);
@@ -67,7 +68,7 @@ namespace server_console
 
                 // Create my Backup and Schedule Managers
                 // Schedule manager needs objects for anything it's going to control
-                BackupManager backupManager = new BackupManager(serverRootDirectory, totalBackupRotations, dailyBackupTime);
+                BackupManager backupManager = new BackupManager(serverRootDirectory, totalBackupRotations, dailyBackupTime, backupDirectory);
                 ScheduleManager scheduleManager = new ScheduleManager(backupManager);
 
                 // Create my ApplicationCommandProcessor
@@ -81,6 +82,7 @@ namespace server_console
 
                 // Start my thread to monitor time
                 Thread timeMonitorThread = new Thread(scheduleManager.TimeMonitor);
+                timeMonitorThread.IsBackground = true;
                 timeMonitorThread.Start();
 
                 serverJavaProcess.WaitForExit();

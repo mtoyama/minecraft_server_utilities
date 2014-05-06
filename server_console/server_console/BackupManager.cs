@@ -14,11 +14,13 @@ namespace server_console
         string folderFormat = @"yyyymmdd_HHmmss";
         string dailyBackupTime;
 
-        public BackupManager(string pServerRoot, int pBackupRotations, string pDailyBackupTime)
+        public BackupManager(string pServerRoot, int pBackupRotations, string pDailyBackupTime, string pBackupDirectory)
         {
-            serverRoot = pServerRoot;
             backupRotations = pBackupRotations;
+            serverRoot = pServerRoot;
+            backupDirectory = pBackupDirectory;
             dailyBackupTime = pDailyBackupTime;
+
             CreateAndSetBackupRootFolder();
         }
 
@@ -29,12 +31,12 @@ namespace server_console
 
         public void CreateAndSetBackupRootFolder()
         {
-            string tempBackupDirectory = Path.Combine(serverRoot, "backups");
-            if (!Directory.Exists(tempBackupDirectory))
+            //string tempBackupDirectory = Path.Combine(serverRoot, "backups");
+            if (!Directory.Exists(backupDirectory))
             {
-                Directory.CreateDirectory(tempBackupDirectory);
+                Directory.CreateDirectory(backupDirectory);
             }
-            backupDirectory = tempBackupDirectory;
+            //backupDirectory = tempBackupDirectory;
         }
 
         public string DetermineBackupFolder()
