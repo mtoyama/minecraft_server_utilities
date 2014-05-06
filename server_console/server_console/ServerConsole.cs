@@ -89,17 +89,10 @@ namespace server_console
                 //consoleInputThread.IsBackground = true;
                 consoleInputThread.Start();
 
-                Thread serverOutputThread = new Thread(commandProcessor.ServerOutputMonitor);
-                serverOutputThread.IsBackground = true;
-                serverOutputThread.Start();
-
                 // Start my thread to monitor time
                 Thread timeMonitorThread = new Thread(scheduleManager.TimeMonitor);
                 timeMonitorThread.IsBackground = true;
                 timeMonitorThread.Start();
-
-                
-
 
                 serverJavaProcess.WaitForExit();
                 ColorConsoleOutput.YellowEvent("Server has been shut down.");
