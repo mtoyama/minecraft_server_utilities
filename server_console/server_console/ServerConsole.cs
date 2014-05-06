@@ -56,13 +56,17 @@ namespace server_console
                 ProcessInfo = new ProcessStartInfo(javaPath, serverJarFileJavaParameter + " " + inputParameters);
                 ProcessInfo.CreateNoWindow = false;
                 ProcessInfo.UseShellExecute = false;
-                ProcessInfo.RedirectStandardOutput = false; // Someday we could redirect the STDOUT to do additional processing on it. Someday.
+                ProcessInfo.RedirectStandardOutput = true; // Someday we could redirect the STDOUT to do additional processing on it. Someday.
                 ProcessInfo.RedirectStandardInput = true; // Need to capture STDIN to push console input to server
+                ProcessInfo.RedirectStandardError = true;
 
                 // Start the Java process
                 serverJavaProcess = Process.Start(ProcessInfo);
 
-                // Create the StreamWriter I'm going to use to pass inputs back to the java process
+
+
+                // Create the input and output streams for the server
+                // $TODO redirect standard error
                 StreamWriter writeToServer = serverJavaProcess.StandardInput;
 
                 // Create my Backup and Schedule Managers
@@ -74,15 +78,28 @@ namespace server_console
                 ApplicationCommandProcessor commandProcessor = new ApplicationCommandProcessor(applicationInputPrefix, writeToServer, serverJavaProcess, backupManager);
                 scheduleManager.SetCommandProcessor(commandProcessor);
 
+                // Add event handlers for STDOUT and STDERR; everything comes out as STDERR from the server... but just in case....
+                serverJavaProcess.OutputDataReceived += commandProcessor.CaptureOutput;
+                serverJavaProcess.ErrorDataReceived += commandProcessor.CaptureOutput;
+                serverJavaProcess.BeginOutputReadLine();
+                serverJavaProcess.BeginErrorReadLine();
+
                 // Start my thread to monitor user input
                 Thread consoleInputThread = new Thread(commandProcessor.UserInputMonitor);
                 //consoleInputThread.IsBackground = true;
                 consoleInputThread.Start();
 
+                Thread serverOutputThread = new Thread(commandProcessor.ServerOutputMonitor);
+                serverOutputThread.IsBackground = true;
+                serverOutputThread.Start();
+
                 // Start my thread to monitor time
                 Thread timeMonitorThread = new Thread(scheduleManager.TimeMonitor);
                 timeMonitorThread.IsBackground = true;
                 timeMonitorThread.Start();
+
+                
+
 
                 serverJavaProcess.WaitForExit();
                 ColorConsoleOutput.YellowEvent("Server has been shut down.");

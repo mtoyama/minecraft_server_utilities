@@ -156,5 +156,20 @@ namespace server_console
         {
             _shouldStopUserInputMonitor = true;
         }
+
+
+        public void CaptureOutput(object sender, DataReceivedEventArgs e)
+        {
+            // Shitty test code
+            if (e.Data.Contains("joined the game"))
+            {
+                ColorConsoleOutput.GreenEvent(e.Data);
+                serverStreamWriter.WriteLine("/say nerd");
+            }
+            else
+            {
+                Console.WriteLine(e.Data);
+            }
+        }
     }
 }
