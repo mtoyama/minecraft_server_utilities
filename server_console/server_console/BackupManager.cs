@@ -31,12 +31,10 @@ namespace server_console
 
         public void CreateAndSetBackupRootFolder()
         {
-            //string tempBackupDirectory = Path.Combine(serverRoot, "backups");
             if (!Directory.Exists(backupDirectory))
             {
                 Directory.CreateDirectory(backupDirectory);
             }
-            //backupDirectory = tempBackupDirectory;
         }
 
         public string DetermineBackupFolder()
