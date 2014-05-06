@@ -121,6 +121,12 @@ namespace server_console
                     ColorConsoleOutput.YellowEvent("Next backup will occur at: ", backupManager.GetDailyBackupTime());
                     break;
 
+                case "exit":
+                    ColorConsoleOutput.YellowEvent("Shutting down server and exiting program.");
+                    StopServer();
+                    Environment.Exit(0);
+                    break;
+
                 default:
                     ColorConsoleOutput.YellowEvent("Invalid command entered.");
                     ExecuteCommand("help");

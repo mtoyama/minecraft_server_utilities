@@ -3,8 +3,8 @@
   <javaPath>java</javaPath>
   <serverRoot>D:\Users\mtoyama\Desktop\MagicFarmServer</serverRoot>
   <jarName>FTBServer-1.6.4-965.jar</jarName>
-  <appInputPrefix>/serverconfig</appInputPrefix>
-  <backupLocation>D:\Users\mtoyama\Desktop\MagicFarmServer\backups</backupLocation>
+  <appInputPrefix>/serverutil</appInputPrefix>
+  <backupLocation>D:\Users\mtoyama\Desktop\MagicFarmServer\CHINGCHONGLINGLONGTINGTONG</backupLocation>
   <dailyBackupTime>03:00</dailyBackupTime>
   <totalBackupRotations>5</totalBackupRotations>
   <serverStartupArguments>

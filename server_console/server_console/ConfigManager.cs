@@ -28,12 +28,10 @@ namespace server_console
         {
             Configuration template = new Configuration();
             template.javaPath = "java";
-            //template.javaPath = @"C:\Program Files\Java\jre7\bin\java.exe";
-            //template.javaPath = @"C:\Windows\System32\java.exe";
             template.serverRoot = "D:\\Users\\mtoyama\\Desktop\\MagicFarmServer";
             template.jarName = "FTBServer-1.6.4-965.jar";
-            template.appInputPrefix = "/serverconfig";
-            template.backupLocation = "D:\\Users\\mtoyama\\Desktop\\MagicFarmServer\\backups";
+            template.appInputPrefix = "/serverutil";
+            template.backupLocation = "D:\\Users\\mtoyama\\Desktop\\MagicFarmServer\\CHINGCHONGLINGLONGTINGTONG";
             template.dailyBackupTime = "03:00";
             template.totalBackupRotations = 5;
             template.serverStartupArguments = new List<string>{

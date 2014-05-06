@@ -54,7 +54,6 @@ namespace server_console
                 ProcessStartInfo ProcessInfo;
                 Process serverJavaProcess;
                 ProcessInfo = new ProcessStartInfo(javaPath, serverJarFileJavaParameter + " " + inputParameters);
-                //ProcessInfo.WorkingDirectory = @"C:\Windows\SysWOW64";
                 ProcessInfo.CreateNoWindow = false;
                 ProcessInfo.UseShellExecute = false;
                 ProcessInfo.RedirectStandardOutput = false; // Someday we could redirect the STDOUT to do additional processing on it. Someday.
@@ -77,7 +76,7 @@ namespace server_console
 
                 // Start my thread to monitor user input
                 Thread consoleInputThread = new Thread(commandProcessor.UserInputMonitor);
-                consoleInputThread.IsBackground = true;
+                //consoleInputThread.IsBackground = true;
                 consoleInputThread.Start();
 
                 // Start my thread to monitor time
