@@ -42,7 +42,8 @@ namespace server_console
             manualShutdown = false;
             serverProcess.Start();
             // We need to re-set the stream writer because we lost it when the previous serverProcess stopped.
-            StreamWriter serverStreamWriter = serverProcess.StandardInput;
+            StreamWriter newServerStreamWriter = serverProcess.StandardInput;
+            serverStreamWriter = newServerStreamWriter;
         }
 
         public void ProcessCommand(string pApplicationCommand)
