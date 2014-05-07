@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Diagnostics;
+using System.Collections;
 
 namespace server_console
 {
-
+    public delegate void ChangedEventHandler(object sender, EventArgs e);
     public class ScheduleManager
     {
+        public event EventHandler<CurrentTimeEventArgs> CurrentTimeEvent;
         private volatile bool _shouldStop = false;
         private static string _timePatt = @"HH:mm";
         BackupManager backupManager;
@@ -35,21 +37,40 @@ namespace server_console
 
         public void TimeMonitor()
         {
-            // Right now this is super hard-coded to perform a backup. We need to set this up like an event system at some point.
             while (!_shouldStop)
             {
                 string currentTime = GetCurrentTime();
-                if (currentTime == backupManager.GetDailyBackupTime())
-                {
-                    ColorConsoleOutput.YellowEvent("Time for a backup!");
-                    commandProcessor.ExecuteCommand("stop");
-                    backupManager.DoBackup();
-                    Thread.Sleep(20000);
-                    Process.Start("shutdown", "-r -t 0");
-                    continue;
-                }
+                CurrentTimeEventArgs time = new CurrentTimeEventArgs();
+                time.currentTime = currentTime;
+                TimeGetReached(time);
                 Thread.Sleep(20000);
             }
+
         }
+
+        protected virtual void TimeGetReached(CurrentTimeEventArgs e)
+        {
+            EventHandler<CurrentTimeEventArgs> handler = CurrentTimeEvent;
+            if (handler != null)
+                handler(this, e);
+        }
+
+        public void ScheduledBackupRestart(object sender, CurrentTimeEventArgs e)
+        {
+            if (e.currentTime == backupManager.GetDailyBackupTime())
+            {
+                ColorConsoleOutput.YellowEvent("Time for a backup! Server will be shut down and restarted.");
+                commandProcessor.ExecuteCommand("stop");
+                backupManager.DoBackup();
+                Thread.Sleep(20000);
+                Process.Start("shutdown", "-r -t 0");
+            }
+        }
+
+    }
+
+    public class CurrentTimeEventArgs : EventArgs
+    {
+        public string currentTime { get; set; }
     }
 }

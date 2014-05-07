@@ -85,6 +85,7 @@ namespace server_console
                     ColorConsoleOutput.YellowEvent("START       Starts the server. Server must be stopped.");
                     ColorConsoleOutput.YellowEvent("RESTART     Warns users, restarts the server.");
                     ColorConsoleOutput.YellowEvent("NEXTBACKUP  Show scheduled backup time.");
+                    ColorConsoleOutput.YellowEvent("EXIT        Kill the server and shut down the application.");
                     break;
 
                 case "backup":
@@ -161,7 +162,7 @@ namespace server_console
 
         public void CaptureOutput(object sender, DataReceivedEventArgs e)
         {
-            // Shitty test code
+            // Function subscribed to the StandardError/Output events
             if (e.Data.Contains("joined the game"))
             {
                 ColorConsoleOutput.GreenEvent(e.Data);

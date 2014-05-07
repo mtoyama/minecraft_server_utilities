@@ -18,8 +18,8 @@ namespace server_console
             
             try
             {
-
-                //ConfigManager.SerializeAndOutputConfigXML();
+                // Code to regenerate config file
+                // ConfigManager.SerializeAndOutputConfigXML();
                 XmlSerializer serializer = new XmlSerializer(typeof(Configuration));
 
                 Configuration inputConfig = new Configuration();
@@ -93,6 +93,9 @@ namespace server_console
                 Thread timeMonitorThread = new Thread(scheduleManager.TimeMonitor);
                 timeMonitorThread.IsBackground = true;
                 timeMonitorThread.Start();
+
+                // Subscribe the scheduled backup method to the current time event
+                scheduleManager.CurrentTimeEvent += scheduleManager.ScheduledBackupRestart;
 
                 serverJavaProcess.WaitForExit();
                 ColorConsoleOutput.YellowEvent("Server has been shut down.");
