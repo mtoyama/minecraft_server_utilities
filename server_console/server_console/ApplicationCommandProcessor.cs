@@ -32,6 +32,7 @@ namespace server_console
             serverStreamWriter.WriteLine("/stop");
             // Wait for the process to finish dying.
             serverProcess.WaitForExit();
+            serverStreamWriter.Dispose();
         }
 
         public void StartServer()

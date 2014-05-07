@@ -100,6 +100,7 @@ namespace server_console
                 // Restart the server if we did not manually shut it down.
                 if (commandProcessor.manualShutdown == false)
                 {
+                    writeToServer.Dispose();
                     commandProcessor.ProcessCommand("start");
                 }
             }
