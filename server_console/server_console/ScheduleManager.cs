@@ -5,13 +5,12 @@ using System.Text;
 using System.Threading;
 using System.Diagnostics;
 using System.Collections;
+using System.Timers;
 
 namespace server_console
 {
-    public delegate void ChangedEventHandler(object sender, EventArgs e);
     public class ScheduleManager
     {
-        public event EventHandler<CurrentTimeEventArgs> CurrentTimeEvent;
         private volatile bool _shouldStop = false;
         private static string _timePatt = @"HH:mm";
         BackupManager backupManager;
@@ -29,37 +28,35 @@ namespace server_console
 
         public static string GetCurrentTime()
         {
-            DateTime currentTime = DateTime.Now; //$TODO Need to change all of these calls to TimeOfDay, then pass around the DateTime object
-            // so that I can parse the object instead of pass around the parsed string
+            DateTime currentTime = DateTime.Now;
             string parsedCurrentTime = currentTime.ToString(_timePatt);
             return parsedCurrentTime;
         }
 
-        public void TimeMonitor()
+
+        public void ScheduledBackupRestart(object sender, ElapsedEventArgs e)
         {
-            while (!_shouldStop)
+            int currentTimeMinutes = Convert.ToInt32(e.SignalTime.TimeOfDay.TotalMinutes);
+            int backupTimeMinutes = Convert.ToInt32(backupManager.dailyBackupTime.TimeOfDay.TotalMinutes);
+
+            if (currentTimeMinutes == backupTimeMinutes - 60)
             {
-                string currentTime = GetCurrentTime();
-                CurrentTimeEventArgs time = new CurrentTimeEventArgs();
-                time.currentTime = currentTime;
-                TimeGetReached(time);
-                Thread.Sleep(20000);
+                commandProcessor.ServerCommandExternal(
+                                @"/say WARNING: Server will be restarting for scheduled maintenance in 60 minutes.");
             }
 
-        }
+            if (currentTimeMinutes == backupTimeMinutes - 15)
+            {
+                commandProcessor.ServerCommandExternal(
+                                @"/say WARNING: Server will be restarting for scheduled maintenance in 15 minutes.");
+            }
+           
 
-        protected virtual void TimeGetReached(CurrentTimeEventArgs e)
-        {
-            EventHandler<CurrentTimeEventArgs> handler = CurrentTimeEvent;
-            if (handler != null)
-                handler(this, e);
-        }
-
-        public void ScheduledBackupRestart(object sender, CurrentTimeEventArgs e)
-        {
-            if (e.currentTime == backupManager.GetDailyBackupTime())
+            if (currentTimeMinutes == backupTimeMinutes)
             {
                 ColorConsoleOutput.YellowEvent("Time for a backup! Server will be shut down and restarted.");
+                commandProcessor.ServerCommandExternal(
+                                @"/say SERVER RESTART INITIATED! It will be back up momentarily.");
                 commandProcessor.ExecuteCommand("stop");
                 backupManager.DoBackup();
                 Thread.Sleep(20000);
@@ -69,8 +66,4 @@ namespace server_console
 
     }
 
-    public class CurrentTimeEventArgs : EventArgs
-    {
-        public string currentTime { get; set; }
-    }
 }

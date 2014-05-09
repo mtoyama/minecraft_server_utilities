@@ -121,7 +121,7 @@ namespace server_console
                     break;
 
                 case "nextbackup":
-                    ColorConsoleOutput.YellowEvent("Next backup will occur at: ", backupManager.GetDailyBackupTime());
+                    ColorConsoleOutput.YellowEvent("Next backup will occur at: ", backupManager.dailyBackupTime.TimeOfDay.ToString());
                     break;
 
                 case "exit":
@@ -137,6 +137,12 @@ namespace server_console
 
             }
         }
+
+        public void ServerCommandExternal(string input)
+        {
+            serverStreamWriter.WriteLine(input);
+        }
+
         public void UserInputMonitor()
         {
             while (!_shouldStopUserInputMonitor)

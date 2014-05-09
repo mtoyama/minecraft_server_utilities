@@ -13,6 +13,7 @@ namespace server_console
 {
     class ServerConsole
     {
+        private static System.Timers.Timer scheduleTimer;
         static void Main(string[] args)
         {
             
@@ -89,13 +90,12 @@ namespace server_console
                 //consoleInputThread.IsBackground = true;
                 consoleInputThread.Start();
 
-                // Start my thread to monitor time
-                Thread timeMonitorThread = new Thread(scheduleManager.TimeMonitor);
-                timeMonitorThread.IsBackground = true;
-                timeMonitorThread.Start();
+                scheduleTimer = new System.Timers.Timer(60000);
+                scheduleTimer.Enabled = true;
+                scheduleTimer.Elapsed += new ElapsedEventHandler(scheduleManager.ScheduledBackupRestart);
 
                 // Subscribe the scheduled backup method to the current time event
-                scheduleManager.CurrentTimeEvent += scheduleManager.ScheduledBackupRestart;
+                //scheduleManager.CurrentTimeEvent += scheduleManager.ScheduledBackupRestart;
 
                 serverJavaProcess.WaitForExit();
                 ColorConsoleOutput.YellowEvent("Server has been shut down.");
