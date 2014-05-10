@@ -39,12 +39,16 @@ namespace server_console
         {
             // We don't want to try to start the server process until the existing process has exited.
             serverProcess.WaitForExit();
+            serverProcess.CancelOutputRead();
+            serverProcess.CancelErrorRead();
             // Reset manualShutdown to false; we only set this to true when we stop the server.
             manualShutdown = false;
             serverProcess.Start();
             // We need to re-set the stream writer because we lost it when the previous serverProcess stopped.
             StreamWriter newServerStreamWriter = serverProcess.StandardInput;
             serverStreamWriter = newServerStreamWriter;
+            serverProcess.BeginErrorReadLine();
+            serverProcess.BeginOutputReadLine();
         }
 
         public void ProcessCommand(string pApplicationCommand)
@@ -169,15 +173,29 @@ namespace server_console
         public void CaptureOutput(object sender, DataReceivedEventArgs e)
         {
             // Function subscribed to the StandardError/Output events
-            if (e.Data.Contains("joined the game"))
+            try
             {
-                ColorConsoleOutput.GreenEvent(e.Data);
-                serverStreamWriter.WriteLine("/say nerd");
+                if (e.Data == null)
+                {
+                    Console.WriteLine("No output!");
+                }
+                else if (e.Data.Contains("joined the game"))
+                {
+                    ColorConsoleOutput.GreenEvent(e.Data);
+                    serverStreamWriter.WriteLine("/say nerd");
+                }
+                else
+                {
+                    Console.WriteLine(e.Data);
+                }
             }
-            else
+            catch (Exception exception)
             {
-                Console.WriteLine(e.Data);
+                Console.WriteLine(exception.Message);
+                Console.WriteLine(exception.InnerException);
+                Console.WriteLine(exception.StackTrace);
             }
+
         }
     }
 }

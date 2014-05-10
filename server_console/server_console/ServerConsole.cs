@@ -64,8 +64,6 @@ namespace server_console
                 // Start the Java process
                 serverJavaProcess = Process.Start(ProcessInfo);
 
-
-
                 // Create the input and output streams for the server
                 // $TODO redirect standard error
                 StreamWriter writeToServer = serverJavaProcess.StandardInput;
@@ -93,18 +91,16 @@ namespace server_console
                 scheduleTimer = new System.Timers.Timer(60000);
                 scheduleTimer.Enabled = true;
                 scheduleTimer.Elapsed += new ElapsedEventHandler(scheduleManager.ScheduledBackupRestart);
-
-                // Subscribe the scheduled backup method to the current time event
-                //scheduleManager.CurrentTimeEvent += scheduleManager.ScheduledBackupRestart;
-
-                serverJavaProcess.WaitForExit();
-                ColorConsoleOutput.YellowEvent("Server has been shut down.");
                 
                 // Restart the server if we did not manually shut it down.
-                if (commandProcessor.manualShutdown == false)
+                while (true)
                 {
-                    writeToServer.Dispose();
-                    commandProcessor.ProcessCommand("start");
+                    if (commandProcessor.manualShutdown == false & serverJavaProcess.HasExited == true)
+                    {
+                        ColorConsoleOutput.YellowEvent("Server has been shut down.");
+                        writeToServer.Dispose();
+                        commandProcessor.ProcessCommand("start");
+                    }
                 }
             }
             catch (Exception e)
