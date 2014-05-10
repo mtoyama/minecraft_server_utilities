@@ -100,6 +100,7 @@ namespace server_console
                     // Restart the server if we did not manually shut it down.
                     while (true)
                     {
+                        Thread.Sleep(10000);
                         if (commandProcessor.manualShutdown == false & serverJavaProcess.HasExited == true)
                         {
                             ColorConsoleOutput.YellowEvent("Server has been shut down.");
