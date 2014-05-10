@@ -51,10 +51,11 @@ namespace server_console
                 "nogui"
             };
 
-            using (StreamWriter sw = new StreamWriter(@".\config.xml"))
+            using (StreamWriter sw = new StreamWriter(@".\regenerated_config.xml"))
             {
                 XmlSerializer xs = new XmlSerializer(typeof(Configuration));
                 xs.Serialize(sw, template);
+                Console.WriteLine("Config regenerated. Rename to config.xml to use");
             }
         }
     }
