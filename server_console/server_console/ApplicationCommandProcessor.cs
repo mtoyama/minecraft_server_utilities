@@ -184,6 +184,10 @@ namespace server_console
                     ColorConsoleOutput.GreenEvent(e.Data);
                     serverStreamWriter.WriteLine("/say nerd");
                 }
+                else if (e.Data.Contains("SERVERUTIL: Restart"))
+                {
+                    ExecuteCommand("restart");
+                }
                 else
                 {
                     Console.WriteLine(e.Data);
