@@ -51,6 +51,7 @@ namespace server_console
                         oldestDirectoryPath = subdir.FullName;
                     }
                 }
+                ColorConsoleOutput.YellowEvent(String.Format("Oldest folder is {0}", oldestDirectoryPath));
             }
 
             //ColorConsoleOutput.YellowEvent("Backup folder count: " + backupFolderCount);
@@ -58,59 +59,78 @@ namespace server_console
             if (backupFolderCount < backupRotations)
             {
                 Directory.CreateDirectory(backupFolderName);
+                ColorConsoleOutput.YellowEvent(String.Format("Backup folder name is {0}", backupFolderName));
                 return backupFolderName;
             }
             else
             {
-                ColorConsoleOutput.YellowEvent("Maximum rotations reached. Replacing oldest backup.");
-                // This is shit. If I somehow return "", the program will explode.
-                Directory.Delete(oldestDirectoryPath, true);
-                Directory.CreateDirectory(backupFolderName);
-                return backupFolderName;
+                try
+                {
+                    ColorConsoleOutput.YellowEvent("Maximum rotations reached. Replacing oldest backup.");
+                    // This is shit. If I somehow return "", the program will explode.
+                    ColorConsoleOutput.YellowEvent(String.Format("Deleting oldest folder {0}", oldestDirectoryPath));
+                    Directory.Delete(oldestDirectoryPath, true);
+                    ColorConsoleOutput.YellowEvent(String.Format("Creating {0}", backupFolderCount));
+                    Directory.CreateDirectory(backupFolderName);
+                    return backupFolderName;
+                }
+                catch (Exception e)
+                {
+                    ColorConsoleOutput.RedEvent(e.Message);
+                }
             }
         }
 
 
         public void DoBackup()
         {
+
             DoBackupRecursion(serverRoot, DetermineBackupFolder());
+
         }
 
 
         public void DoBackupRecursion(string pSourceDir, string pDestDir)
         {
-            // FUN!!!
-            // DO NOT INCLUDE BACKUPS!
-            DirectoryInfo dir = new DirectoryInfo(pSourceDir);
-            DirectoryInfo[] dirs = dir.GetDirectories();
-
-            if (!dir.Exists)
+            try
             {
-                throw new DirectoryNotFoundException(
-                    "Server directory does not exist or could not be found: "
-                    + dir);
-            }
+                // FUN!!!
+                // DO NOT INCLUDE BACKUPS!
+                DirectoryInfo dir = new DirectoryInfo(pSourceDir);
+                DirectoryInfo[] dirs = dir.GetDirectories();
 
-            if (!Directory.Exists(pDestDir))
-            {
-                Directory.CreateDirectory(pDestDir);
-            }
-
-            FileInfo[] files = dir.GetFiles();
-            foreach (FileInfo file in files)
-            {
-                string temppath = Path.Combine(pDestDir, file.Name);
-                file.CopyTo(temppath, true);
-            }
-
-            foreach (DirectoryInfo subdir in dirs)
-            {
-                if (subdir.FullName.Contains(backupDirectory))
+                if (!dir.Exists)
                 {
-                    continue;
+                    throw new DirectoryNotFoundException(
+                        "Server directory does not exist or could not be found: "
+                        + dir);
                 }
-                string temppath = Path.Combine(pDestDir, subdir.Name);
-                DoBackupRecursion(subdir.FullName, temppath);
+
+                if (!Directory.Exists(pDestDir))
+                {
+                    Directory.CreateDirectory(pDestDir);
+                }
+
+                FileInfo[] files = dir.GetFiles();
+                foreach (FileInfo file in files)
+                {
+                    string temppath = Path.Combine(pDestDir, file.Name);
+                    file.CopyTo(temppath, true);
+                }
+
+                foreach (DirectoryInfo subdir in dirs)
+                {
+                    if (subdir.FullName.Contains(backupDirectory))
+                    {
+                        continue;
+                    }
+                    string temppath = Path.Combine(pDestDir, subdir.Name);
+                    DoBackupRecursion(subdir.FullName, temppath);
+                }
+            }
+            catch (Exception e)
+            {
+                ColorConsoleOutput.RedEvent(e.Message);
             }
 
         }
