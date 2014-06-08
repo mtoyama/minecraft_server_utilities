@@ -72,12 +72,12 @@ namespace server_console
                     Directory.Delete(oldestDirectoryPath, true);
                     ColorConsoleOutput.YellowEvent(String.Format("Creating {0}", backupFolderCount));
                     Directory.CreateDirectory(backupFolderName);
-                    return backupFolderName;
-                }
+                                }
                 catch (Exception e)
                 {
                     ColorConsoleOutput.RedEvent(e.Message);
                 }
+                return backupFolderName;
             }
         }
 
