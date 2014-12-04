@@ -18,6 +18,7 @@ namespace server_console
         public string dailyBackupTime;
         public int totalBackupRotations;
         public List<string> serverStartupArguments;
+        public bool wipeBanlist;
     }
     
     class ConfigManager
@@ -32,6 +33,7 @@ namespace server_console
             template.jarName = "FTBServer-1.6.4-965.jar";
             template.appInputPrefix = "/serverutil";
             template.backupLocation = "D:\\Users\\mtoyama\\Desktop\\MagicFarmServer\\CHINGCHONGLINGLONGTINGTONG";
+            template.wipeBanlist = false;
             template.dailyBackupTime = "03:00";
             template.totalBackupRotations = 5;
             template.serverStartupArguments = new List<string>{

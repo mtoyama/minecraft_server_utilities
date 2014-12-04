@@ -11,7 +11,7 @@ namespace server_console
         int backupRotations;
         string serverRoot;
         string backupDirectory;
-        string folderFormat = @"yyyymmdd_HHmmss";
+        string folderFormat = @"yyyymmdd_HHmmss"; 
         public DateTime dailyBackupTime;
 
         public BackupManager(string pServerRoot, int pBackupRotations, string pDailyBackupTime, string pBackupDirectory)
@@ -70,7 +70,7 @@ namespace server_console
                     // This is shit. If I somehow return "", the program will explode.
                     ColorConsoleOutput.YellowEvent(String.Format("Deleting oldest folder {0}", oldestDirectoryPath));
                     Directory.Delete(oldestDirectoryPath, true);
-                    ColorConsoleOutput.YellowEvent(String.Format("Creating {0}", backupFolderCount));
+                    ColorConsoleOutput.YellowEvent(String.Format("Creating folder {0}:{1}", backupFolderCount, backupFolderName));
                     Directory.CreateDirectory(backupFolderName);
                                 }
                 catch (Exception e)

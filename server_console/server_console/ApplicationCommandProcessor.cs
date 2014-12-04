@@ -27,28 +27,44 @@ namespace server_console
 
         public void StopServer()
         {
-            // Let the main method know we shut down the server.
-            manualShutdown = true;
-            serverStreamWriter.WriteLine("/stop");
-            // Wait for the process to finish dying.
-            serverProcess.WaitForExit();
-            serverStreamWriter.Dispose();
+            try
+            {
+                // Let the main method know we shut down the server.
+                manualShutdown = true;
+                serverStreamWriter.WriteLine(@"/stop");
+                // Wait for the process to finish dying.
+                serverProcess.WaitForExit();
+                serverStreamWriter.Dispose();
+            }
+            catch (Exception e)
+            {
+                ColorConsoleOutput.RedEvent(e.Message);
+
+            }
         }
 
         public void StartServer()
         {
-            // We don't want to try to start the server process until the existing process has exited.
-            serverProcess.WaitForExit();
-            serverProcess.CancelOutputRead();
-            serverProcess.CancelErrorRead();
-            // Reset manualShutdown to false; we only set this to true when we stop the server.
-            manualShutdown = false;
-            serverProcess.Start();
-            // We need to re-set the stream writer because we lost it when the previous serverProcess stopped.
-            StreamWriter newServerStreamWriter = serverProcess.StandardInput;
-            serverStreamWriter = newServerStreamWriter;
-            serverProcess.BeginErrorReadLine();
-            serverProcess.BeginOutputReadLine();
+            ColorConsoleOutput.YellowEvent(@"Starting server");
+            try
+            {
+                // We don't want to try to start the server process until the existing process has exited.
+                serverProcess.WaitForExit();
+                serverProcess.CancelOutputRead();
+                serverProcess.CancelErrorRead();
+                // Reset manualShutdown to false; we only set this to true when we stop the server.
+                manualShutdown = false;
+                serverProcess.Start();
+                // We need to re-set the stream writer because we lost it when the previous serverProcess stopped.
+                StreamWriter newServerStreamWriter = serverProcess.StandardInput;
+                serverStreamWriter = newServerStreamWriter;
+                serverProcess.BeginErrorReadLine();
+                serverProcess.BeginOutputReadLine();
+            }
+            catch (Exception e)
+            {
+                ColorConsoleOutput.RedEvent(e.Message);
+            }
         }
 
         public void ProcessCommand(string pApplicationCommand)
@@ -101,7 +117,7 @@ namespace server_console
                 case "stop":
                     ColorConsoleOutput.YellowEvent("Stopping server in 30 seconds. Warning the users first.");
                     serverStreamWriter.WriteLine(
-                        "/say Server will be shutting down in 30 seconds. Have a nice day.");
+                        @"/say Server will be shutting down in 30 seconds. Have a nice day.");
                     Thread.Sleep(30000);
                     StopServer();
                     break;
@@ -113,9 +129,9 @@ namespace server_console
 
                 case "restart":
                     ColorConsoleOutput.YellowEvent("Initializing restart sequence.");
-                    ColorConsoleOutput.YellowEvent("Stopping server in 30 seconds. Warning the users first.");
+                    ColorConsoleOutput.YellowEvent("Restarting server in 30 seconds. Warning the users first.");
                     serverStreamWriter.WriteLine(
-                        "/say Server will be shutting down in 30 seconds. Have a nice day.");
+                        @"/say Server will be shutting down in 30 seconds for a restart. Have a nice day.");
                     Thread.Sleep(30000);
                     StopServer();
                     ColorConsoleOutput.YellowEvent("Starting server back up in 10 seconds...");

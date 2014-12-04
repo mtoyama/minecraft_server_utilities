@@ -46,7 +46,7 @@ namespace server_console
 
                     string serverJarFullPath = Path.Combine(serverRootDirectory, serverJarFilename);
                     string serverJarFileJavaParameter = "-jar " + serverJarFullPath;
-
+                    bool shouldWipeBanlist = inputConfig.wipeBanlist;
                     string inputParameters = "";
                     foreach (string argument in inputConfig.serverStartupArguments)
                     {
@@ -77,6 +77,18 @@ namespace server_console
                     // Schedule manager needs objects for anything it's going to control
                     BackupManager backupManager = new BackupManager(serverRootDirectory, totalBackupRotations, dailyBackupTime, backupDirectory);
                     ScheduleManager scheduleManager = new ScheduleManager(backupManager);
+                    
+                    
+                    //wipe the ban list
+                    if (shouldWipeBanlist)
+                    {
+                        FileInfo bannedPlayers = new FileInfo(serverRootDirectory + "\\" + "banned-players.txt");
+                        if (bannedPlayers.Exists)
+                        {
+                            File.Delete(bannedPlayers.ToString());
+                        }
+                        
+                    }
 
                     // Create my ApplicationCommandProcessor
                     ApplicationCommandProcessor commandProcessor = new ApplicationCommandProcessor(applicationInputPrefix, writeToServer, serverJavaProcess, backupManager);
