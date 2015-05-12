@@ -28,11 +28,11 @@ namespace server_console
         public static void SerializeAndOutputConfigXML()
         {
             Configuration template = new Configuration();
-            template.javaPath = "java";
-            template.serverRoot = "D:\\Users\\mtoyama\\Desktop\\MagicFarmServer";
-            template.jarName = "FTBServer-1.6.4-965.jar";
-            template.appInputPrefix = "/serverutil";
-            template.backupLocation = "D:\\Users\\mtoyama\\Desktop\\MagicFarmServer\\CHINGCHONGLINGLONGTINGTONG";
+            template.javaPath = @"c:\path\to\java.exe";
+            template.serverRoot = @"D:\Users\mtoyama\Desktop\MagicFarmServer";
+            template.jarName = @"FTBServer-1.6.4-965.jar";
+            template.appInputPrefix = @"/serverutil";
+            template.backupLocation = @"D:\Users\mtoyama\Desktop\MagicFarmServer\CHINGCHONGLINGLONGTINGTONG";
             template.wipeBanlist = false;
             template.dailyBackupTime = "03:00";
             template.totalBackupRotations = 5;

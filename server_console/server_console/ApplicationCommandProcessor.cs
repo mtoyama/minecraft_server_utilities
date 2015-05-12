@@ -8,7 +8,6 @@ using System.Threading;
 
 namespace server_console
 {
-    //commit test.
     public class ApplicationCommandProcessor
     {
         private volatile bool _shouldStopUserInputMonitor = false;

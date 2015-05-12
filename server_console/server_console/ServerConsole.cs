@@ -48,10 +48,32 @@ namespace server_console
                     string serverJarFileJavaParameter = "-jar " + serverJarFullPath;
                     bool shouldWipeBanlist = inputConfig.wipeBanlist;
                     string inputParameters = "";
+                    bool noguiIsParameter = false;  //nogui is special and needs to go to the end. Rather than create a pre and post params section, I'm just special casing it.
+
+                    //we want to move nogui to the end of the list since it's a special parameter.
+                    //if it exists, we just remove it and store off a bool.
+                    if (inputConfig.serverStartupArguments.Contains("nogui"))
+                    {
+                        noguiIsParameter = true;
+                        inputConfig.serverStartupArguments.Remove("nogui");
+                    }
+
                     foreach (string argument in inputConfig.serverStartupArguments)
                     {
+                        
                         inputParameters += argument + " ";
+
                     }
+
+
+                    //for debugging
+                    //processStartString = String.Format("{0} {1} {2}", javaPath, inputParameters, serverJarFileJavaParameter);
+                    if (noguiIsParameter)
+                    {
+                        inputParameters += serverJarFileJavaParameter + " nogui";
+                    }
+
+                    Console.WriteLine(javaPath + " " + inputParameters);
 
                     // Set current dir to server root dir
                     Directory.SetCurrentDirectory(serverRootDirectory);
@@ -59,7 +81,9 @@ namespace server_console
                     // Define the properties of the Java process 
                     ProcessStartInfo ProcessInfo;
                     Process serverJavaProcess;
-                    ProcessInfo = new ProcessStartInfo(javaPath, serverJarFileJavaParameter + " " + inputParameters);
+
+                    //ProcessInfo = new ProcessStartInfo(javaPath, serverJarFileJavaParameter + " " + inputParameters);
+                    ProcessInfo = new ProcessStartInfo(javaPath, inputParameters);
                     ProcessInfo.CreateNoWindow = false;
                     ProcessInfo.UseShellExecute = false;
                     ProcessInfo.RedirectStandardOutput = true; // Someday we could redirect the STDOUT to do additional processing on it. Someday.
@@ -127,7 +151,8 @@ namespace server_console
                 Console.WriteLine(e.Message);
                 Console.WriteLine(e.InnerException);
                 Console.WriteLine(e.StackTrace);
-
+                Console.WriteLine("Press any key to continue");
+                Console.Read();
             }
         }
     }
