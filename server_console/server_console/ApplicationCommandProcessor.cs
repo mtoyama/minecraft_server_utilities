@@ -88,7 +88,7 @@ namespace server_console
 
         public void ExecuteCommand(string pApplicationCommandProcessed)
         {
-            //ColorConsoleOutput.YellowEvent("Executing command: " + pApplicationCommandProcessed);
+            ColorConsoleOutput.YellowEvent("Executing command: " + pApplicationCommandProcessed);
             switch (pApplicationCommandProcessed)
             {
                 // Put valid commands here. Instead of putting the messaging in the methods, which lacks context,
@@ -111,7 +111,7 @@ namespace server_console
                 case "backup":
                     ColorConsoleOutput.YellowEvent("Creating new backup of server files.");
                     backupManager.DoBackup();
-                    ColorConsoleOutput.YellowEvent("Backup complete.");
+                    ColorConsoleOutput.YellowEvent("Backup complete."); //don't know if the backup actually suceeded here. This may be lies.
                     break;
 
                 case "stop":
