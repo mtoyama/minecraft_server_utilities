@@ -28,3 +28,5 @@ How do we call a shutdown from within the program?
 How do we separate application commands from minecraft server commands?
 	/serverutil:
 	/server:
+
+Phonetest
